@@ -1,148 +1,79 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                        {{ __('Kategori') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                        {{ __('Supplier') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                        {{ __('Produk') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('sales.index')" :active="request()->routeIs('sales.*')">
-                        {{ __('Penjualan') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.*')">
-                        {{ __('Pembelian') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')">
-                        {{ __('Laporan') }}
-                    </x-nav-link>
-                </div>
-            </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger (Mobile) -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+<aside class="w-64 bg-white border-r border-rose-100 flex flex-col justify-between min-h-screen p-4 shrink-0">
+    <div class="space-y-6">
+        <!-- Logo Brand -->
+        <div class="flex items-center space-x-3 px-3 py-2">
+            <span class="text-2xl">💄</span>
+            <div>
+                <h1 class="font-bold text-lg text-rose-950 font-serif leading-tight">Maison de Clarissa</h1>
+                <p class="text-[10px] text-rose-400 font-medium">Inventory & Sales System</p>
             </div>
         </div>
+
+        <!-- List Menu Sidebar -->
+        <nav class="space-y-1.5">
+            <!-- Dashboard -->
+            <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('dashboard') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Kelola Kategori -->
+            @if(Route::has('categories.index'))
+            <a href="{{ route('categories.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('categories.*') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>🏷️</span>
+                <span>Kelola Kategori</span>
+            </a>
+            @endif
+
+            <!-- Katalog Produk -->
+            @if(Route::has('products.index'))
+            <a href="{{ route('products.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('products.*') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>🛍️</span>
+                <span>Katalog Produk</span>
+            </a>
+            @endif
+
+            <!-- Data Pemasok -->
+            @if(Route::has('suppliers.index'))
+            <a href="{{ route('suppliers.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('suppliers.*') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>🏢</span>
+                <span>Data Pemasok</span>
+            </a>
+            @endif
+
+            <!-- Pembelian Stok -->
+            <a href="{{ Route::has('purchases.index') ? route('purchases.index') : '#' }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('purchases.*') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>📦</span>
+                <span>Pembelian Stok</span>
+            </a>
+
+            <!-- Kasir Penjualan -->
+            <a href="{{ Route::has('sales.create') ? route('sales.create') : '#' }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('sales.create') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>🛒</span>
+                <span>Kasir Penjualan</span>
+            </a>
+
+            <!-- Laporan Penjualan -->
+            @if(Route::has('sales.index'))
+            <a href="{{ route('sales.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold text-xs transition {{ request()->routeIs('sales.index') ? 'bg-pink-100 text-rose-900 shadow-sm' : 'text-gray-600 hover:bg-pink-50 hover:text-rose-800' }}">
+                <span>📋</span>
+                <span>Laporan Penjualan</span>
+            </a>
+            @endif
+        </nav>
     </div>
 
-    <!-- Responsive Navigation Menu (Mobile) -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                {{ __('Kategori') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                {{ __('Supplier') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                {{ __('Produk') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('sales.index')" :active="request()->routeIs('sales.*')">
-                {{ __('Penjualan') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.*')">
-                {{ __('Pembelian') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')">
-                {{ __('Laporan') }}
-            </x-responsive-nav-link>
+    <!-- User & Logout -->
+    <div class="border-t border-rose-100 pt-4 flex items-center justify-between">
+        <div>
+            <p class="font-bold text-xs text-rose-950">{{ Auth::user()->name ?? 'User' }}</p>
+            <p class="text-[10px] text-gray-400">Staff Toko</p>
         </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-xl transition border border-rose-200">
+                Keluar
+            </button>
+        </form>
     </div>
-</nav>
+</aside>
